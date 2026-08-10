@@ -86,7 +86,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 .deck-view{display:none;position:fixed;inset:0;z-index:100;background:var(--bg);flex-direction:column}
 .deck-view.open{display:flex;animation:fadeIn .2s ease}
 
-.deck-topbar{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--border-subtle);flex-shrink:0;background:rgba(8,9,10,0.95);backdrop-filter:blur(12px)}
+.deck-topbar{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--border-subtle);flex-shrink:0;background:rgba(8,9,10,0.95)}
 
 /* ── Linear-style buttons ── */
 .deck-back,.deck-btn{
@@ -121,7 +121,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 
 /* Full-bleed background image */
 .slide-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
-.slide-bg img{width:100%;height:100%;object-fit:cover;animation:kenBurns 12s ease-in-out infinite alternate}
+.slide-bg img{width:100%;height:100%;object-fit:cover;animation:kenBurns 12s ease-in-out infinite alternate;transition:opacity .3s ease}
 .slide-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(0,0,0,0.3) 60%,rgba(0,0,0,0.7) 100%);pointer-events:none}
 
 /* Slide content overlay */
@@ -130,7 +130,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 
 /* ── Question text box ── */
 .slide-question-box{
-  background:rgba(0,0,0,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:rgba(0,0,0,0.45);
   border:1px solid rgba(255,255,255,0.12);border-radius:12px;border-top:2px solid var(--accent);
   padding:28px 32px;margin-bottom:16px;
   animation:slideUp .4s ease .1s both;
@@ -161,7 +161,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 /* ── Reveal possible answers ── */
 .answers-card{
   display:none;margin-top:16px;
-  background:rgba(0,0,0,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  background:rgba(0,0,0,0.45);
   border:1px solid var(--accent);border-radius:12px;padding:18px 22px;
   animation:slideUp .3s ease both;
 }
@@ -172,7 +172,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 .answers-card li:last-child{margin-bottom:0}
 
 /* ── Bottom controls ── */
-.deck-controls{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-top:1px solid var(--border-subtle);flex-shrink:0;background:rgba(8,9,10,0.9);backdrop-filter:blur(12px);z-index:5}
+.deck-controls{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-top:1px solid var(--border-subtle);flex-shrink:0;background:rgba(8,9,10,0.9);z-index:5}
 .deck-progress{flex:1;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;max-width:280px;overflow:hidden}
 .deck-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s cubic-bezier(.4,0,.2,1)}
 
@@ -215,7 +215,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 .section-num{font-family:'Fira Code',monospace;font-size:.6rem;font-weight:700;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
 
 .lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
-.lesson-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;transition:all .2s;text-decoration:none;color:inherit;display:block;overflow:hidden;position:relative;aspect-ratio:4/3}
+.lesson-card{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;color:inherit;display:block;overflow:hidden;position:relative;aspect-ratio:4/3}
 .lesson-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.5),0 0 0 1px var(--accent);filter:brightness(1.05)}
 .lesson-card:active{transform:translateY(-1px) scale(0.98);box-shadow:0 4px 16px rgba(0,0,0,0.3);transition-duration:.1s}
 .lesson-card-img-container{position:relative;width:100%;height:100%;overflow:hidden}
@@ -590,24 +590,9 @@ Object.keys(coverImageMap).forEach(function(slug){
   mappingLookup[slug] = coverImageMap[slug];
 });
 
-for(var i=0;i<lessonData.length;i++){
-  var cat=lessonData[i];
-  for(var j=0;j<cat.topics.length;j++){
-    var t=cat.topics[j];
-    var card=document.createElement('a');
-    card.href='#';
-    card.className='lesson-card';
-    card.onclick=function(c,t){return function(e){e.preventDefault();openDeck(c,t);};}(cat.category,t);
-    
-    var imgSrc = mappingLookup[t.slug] || '';
-    var imgHtml = imgSrc 
-      ? '<div class="lesson-card-img-container"><img class="lesson-card-img" src="'+imgSrc+'" alt=""></div>' 
-      : '<div class="lesson-card-img-container"><div class="lesson-card-img placeholder" style="background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--text-dim);font-size:1rem">'+t.slug+'</div></div>';
-
-          card.innerHTML = imgHtml + '<div class="lesson-card-content"><div class="lesson-card-body"><div class="lesson-cat">'+cat.category+'</div><h3>'+t.title.replace(/ \\(\\d+ questions?\\)$/,'')+'</h3><div class="lesson-count">'+t.questions.length+' questions</div></div></div>';
-    grid.appendChild(card);
-  }
-}
+// Grid is rendered once by initLibrary() (see above), which waits for
+// lesson-data + image mapping to load and uses the resolved online covers.
+// (Removed duplicate immediate render that painted broken local paths first.)
 
 window.openDeck=function(catName,topic){
   currentCat=catName;
@@ -805,8 +790,33 @@ function renderSlide(){
   // Use local image if available, otherwise fallback to Pollinations
   var localImg = (window.localImageMap[slug] && window.localImageMap[slug][String(currentIndex)]);
   var imgUrl = localImg || getQuestionImage(q.original, slug, currentIndex);
-  document.getElementById('slideBgImg').src = imgUrl;
-  document.getElementById('slideBgImg').alt = currentTopic;
+  var bgImg = document.getElementById('slideBgImg');
+  // Crossfade: fade out, swap src, fade in on load (instant if cached)
+  if(bgImg.src !== imgUrl){
+    bgImg.style.opacity = 0;
+    var fadeIn = function(){ bgImg.style.opacity = 1; };
+    bgImg.onload = fadeIn;
+    bgImg.onerror = fadeIn;
+    bgImg.src = imgUrl;
+    bgImg.alt = currentTopic;
+    if(bgImg.complete) fadeIn();
+  }
+  // Preload adjacent slides for instant navigation
+  [currentIndex+1, currentIndex-1].forEach(function(ix){
+    if(ix < 0 || ix >= questions.length) return;
+    var nq = questions[ix];
+    var nImg = (window.localImageMap[slug] && window.localImageMap[slug][String(ix)])
+      || getQuestionImage(nq.original, slug, ix);
+    var pre = new Image();
+    pre.src = nImg;
+  });
+  // Re-trigger entrance animation on the question box each slide change
+  var qBox = document.querySelector('.slide-question-box');
+  if(qBox){
+    qBox.style.animation = 'none';
+    void qBox.offsetWidth;
+    qBox.style.animation = '';
+  }
 }
 
 // Image toggle
