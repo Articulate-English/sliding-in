@@ -141,14 +141,40 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
 @media(max-width:768px){.slide-question{font-size:1.15rem}}
 .slide-paraphrase{font-size:.95rem;color:rgba(255,255,255,0.65);line-height:1.6;font-style:italic;padding-left:14px;border-left:2px solid rgba(255,255,255,0.15)}
 
+/* ── Vocab tooltips ── */
+.vocab-inline{border-bottom:2px dotted var(--accent);cursor:pointer;font-weight:560;color:var(--accent)}
+.vocab-tooltip{
+  position:fixed;z-index:120;max-width:300px;
+  background:rgba(12,14,18,0.97);border:1px solid var(--accent);border-radius:10px;
+  padding:12px 16px;font-size:.82rem;color:#fff;line-height:1.55;
+  box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.05);
+  pointer-events:none;opacity:0;transform:translateY(4px);
+  transition:opacity .18s,transform .18s;
+}
+.vocab-tooltip.show{opacity:1;transform:translateY(0)}
+.vocab-tooltip .vt-word{font-weight:700;color:var(--accent);display:block;margin-bottom:4px;font-size:.85rem}
+
+/* ── Go deeper ── */
+.go-deeper{font-size:.95rem;color:rgba(255,255,255,0.75);line-height:1.6;padding-left:14px;border-left:2px solid var(--accent);margin-top:6px}
+.go-deeper-label{display:block;font-family:var(--mono);font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+
+/* ── Reveal possible answers ── */
+.answers-card{
+  display:none;margin-top:16px;
+  background:rgba(0,0,0,0.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid var(--accent);border-radius:12px;padding:18px 22px;
+  animation:slideUp .3s ease both;
+}
+.answers-card.show{display:block}
+.answers-card h4{font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.answers-card ul{margin:0;padding-left:18px}
+.answers-card li{font-size:.9rem;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:7px}
+.answers-card li:last-child{margin-bottom:0}
+
 /* ── Bottom controls ── */
 .deck-controls{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;border-top:1px solid var(--border-subtle);flex-shrink:0;background:rgba(8,9,10,0.9);backdrop-filter:blur(12px);z-index:5}
 .deck-progress{flex:1;height:3px;background:rgba(255,255,255,0.06);border-radius:2px;max-width:280px;overflow:hidden}
 .deck-progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .3s cubic-bezier(.4,0,.2,1)}
-
-/* ── Shuffle indicator ── */
-.shuffle-indicator{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:6px 16px;border-radius:9999px;font-family:var(--font);font-size:.65rem;font-weight:590;letter-spacing:.5px;opacity:0;transition:opacity .3s;z-index:101;box-shadow:0 4px 12px var(--accent-glow)}
-.shuffle-indicator.show{opacity:1}
 
 /* ── Category filter pills ── */
 .filter-bar{display:flex;gap:6px;padding:16px 32px;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border-subtle)}
@@ -296,7 +322,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
     <div class="how-step">
       <div class="how-step-num">02</div>
       <h3>Slide Through</h3>
-      <p>Each question is presented as a visual slide. Use arrow keys or buttons to navigate. Press shuffle for a fresh order.</p>
+      <p>Each question is presented as a visual slide. Use arrow keys or buttons to navigate. Every time you open a topic the questions appear in a fresh order.</p>
     </div>
     <div class="how-step">
       <div class="how-step-num">03</div>
@@ -331,28 +357,33 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:
       <div class="slide-question-box">
         <div class="slide-cat" id="slideCat">Category</div>
         <div class="slide-question" id="slideQuestion">Question goes here</div>
-        <div class="slide-paraphrase" id="slideParaphrase">Paraphrased version</div>
+        <div class="go-deeper"><span class="go-deeper-label">Go deeper</span><span id="slideGoDeeper"></span></div>
+        <div class="answers-card" id="answersCard"><h4>Possible answers</h4><ul id="answersList"></ul></div>
       </div>
     </div>
   </div>
   <div class="deck-controls">
     <button class="deck-btn icon-btn" onclick="prevSlide()">&#8592;</button>
     <div class="deck-progress"><div class="deck-progress-fill" id="deckProgressFill" style="width:10%"></div></div>
-    <button class="deck-btn" onclick="shuffleDeck()">&#128260; Shuffle</button>
+    <button class="deck-btn" onclick="toggleAnswers()">&#128161; Reveal possible answers</button>
     <button class="deck-btn primary" onclick="nextSlide()">Next &#8594;</button>
   </div>
 </div>
 
-<div class="shuffle-indicator" id="shuffleIndicator">&#128260; Shuffled!</div>
+<div class="vocab-tooltip" id="vocabTooltip"><span class="vt-word" id="vtWord"></span><span id="vtDef"></span></div>
 
+<script src="lesson-data.js"></script>
 <script>
-var lessonData = [];
-fetch('lesson-data.json')
-  .then(function(r) { return r.json(); })
-  .then(function(data) { lessonData = data; initLibrary(); })
-  .catch(function(e) { console.error('Failed to load lesson data:', e); });
+var lessonData = window.lessonData || [];
+if(!lessonData.length){
+  fetch('lesson-data.json')
+    .then(function(r) { return r.json(); })
+    .then(function(data) { lessonData = data; if(window.tryInitLibrary) window.tryInitLibrary(); })
+    .catch(function(e) { console.error('Failed to load lesson data:', e); });
+}
 
-var topicImages = {}; fetch("topic-images.json").then(r=>r.json()).then(d=>{topicImages=d;});
+var topicImages = {};
+try { fetch("topic-images.json").then(function(r){return r.json();}).then(function(d){topicImages=d;}).catch(function(){}); } catch(e){}
 
 (function(){
 "use strict";
@@ -376,7 +407,7 @@ fetch("mapping-data.json").then(r=>r.json()).then(d=>{mappingData=d; tryInitLibr
 var initAttempts = 0;
 function tryInitLibrary(){
   initAttempts++;
-  if(window.lessonData && window.lessonData.length > 0 && mappingData && mappingData.length > 0){
+  if(window.lessonData && window.lessonData.length > 0){
     initLibrary();
   } else if(initAttempts < 50){
     setTimeout(tryInitLibrary, 200);
@@ -385,6 +416,7 @@ function tryInitLibrary(){
     initLibrary();
   }
 }
+window.tryInitLibrary = tryInitLibrary;
 
 function initLibrary(){
   var grid=document.getElementById('lessonGrid');
@@ -583,9 +615,16 @@ window.openDeck=function(catName,topic){
   currentTopicObj=topic;
   questions=[];
   for(var i=0;i<topic.questions.length;i++){
-    questions.push({original:topic.questions[i].original,paraphrased:topic.questions[i].paraphrased});
+    var q=topic.questions[i];
+    questions.push({original:q.original,paraphrased:q.paraphrased||'',vocab:q.vocab||[],possibleAnswers:q.possibleAnswers||[]});
+  }
+  // Randomize question order each time the deck opens (no shuffle button needed)
+  for(var k=questions.length-1;k>0;k--){
+    var j=Math.floor(Math.random()*(k+1));
+    var tmp=questions[k];questions[k]=questions[j];questions[j]=tmp;
   }
   currentIndex=0;
+  hideAnswers();
   document.getElementById('deckView').classList.add('open');
   renderSlide();
 };
@@ -598,11 +637,61 @@ window.closeDeck=function(){
 window.nextSlide=function(){if(currentIndex<questions.length-1){currentIndex++;renderSlide();}};
 window.prevSlide=function(){if(currentIndex>0){currentIndex--;renderSlide();}};
 
-window.shuffleDeck=function(){
-  for(var i=questions.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var tmp=questions[i];questions[i]=questions[j];questions[j]=tmp;}
-  currentIndex=0;renderSlide();
-  var ind=document.getElementById('shuffleIndicator');ind.classList.add('show');setTimeout(function(){ind.classList.remove('show');},1500);
+window.hideAnswers=function(){
+  var card=document.getElementById('answersCard');
+  if(card) card.classList.remove('show');
+  hideVocabTip();
 };
+
+window.toggleAnswers=function(){
+  var card=document.getElementById('answersCard');
+  if(!card) return;
+  if(card.classList.contains('show')){card.classList.remove('show');return;}
+  var q=questions[currentIndex];
+  var ul=document.getElementById('answersList');
+  ul.innerHTML='';
+  var list=(q&&q.possibleAnswers)||[];
+  for(var i=0;i<list.length;i++){
+    var li=document.createElement('li');
+    li.textContent=list[i];
+    ul.appendChild(li);
+  }
+  card.classList.add('show');
+};
+
+window.hideVocabTip=function(){
+  var tip=document.getElementById('vocabTooltip');
+  if(tip) tip.classList.remove('show');
+};
+
+function showVocabTip(word,def,el){
+  var tip=document.getElementById('vocabTooltip');
+  if(!tip) return;
+  document.getElementById('vtWord').textContent=word;
+  document.getElementById('vtDef').textContent=def;
+  tip.classList.add('show');
+  var r=el.getBoundingClientRect();
+  var tw=tip.offsetWidth, th=tip.offsetHeight;
+  var x=Math.min(Math.max(8,r.left+r.width/2-tw/2),window.innerWidth-tw-8);
+  var y=r.top-th-10;
+  if(y<8) y=r.bottom+10;
+  tip.style.left=x+'px';
+  tip.style.top=y+'px';
+}
+
+// Vocab tooltip wiring: any .vocab-inline click shows the definition
+document.addEventListener('click',function(e){
+  var t=e.target;
+  var hit=t.closest?t.closest('.vocab-inline'):null;
+  if(hit){
+    e.preventDefault();e.stopPropagation();
+    var w=hit.getAttribute('data-word')||hit.textContent;
+    var d=hit.getAttribute('data-def')||'';
+    showVocabTip(w,d,hit);
+    return;
+  }
+  hideVocabTip();
+});
 
 window.cycleTheme=function(){
   // 7 color themes + dark/light base = 9 total options
@@ -669,15 +758,38 @@ window.localImageMap = {"age":{"0":"https://cdn.pixabay.com/photo/2016/11/21/12/
 
 function renderSlide(){
   var q=questions[currentIndex];
-  document.getElementById('deckTitle').textContent=currentTopic.replace(/ \\(\\d+ questions?\\)$/,'');
+  document.getElementById('deckTitle').textContent=currentTopic.replace(/ \(\d+ questions?\)$/,'');
   var catEl = document.getElementById('deckTitleCat');
   if(catEl) catEl.textContent = currentCat;
   document.getElementById('dcCurrent').textContent=(currentIndex+1);
   document.getElementById('dcTotal').textContent=questions.length;
   document.getElementById('slideCat').textContent=currentCat;
-  document.getElementById('slideQuestion').textContent=q.original;
-  document.getElementById('slideParaphrase').textContent=q.paraphrased||'';
+
+  // Question text with vocab words wrapped as dotted-underline inline spans
+  var qEl=document.getElementById('slideQuestion');
+  qEl.textContent='';
+  var vocab=(q.vocab||[]);
+  var text=q.original;
+  var safeText=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  for(var v=0;v<vocab.length;v++){
+    var w=vocab[v].word;
+    var re=new RegExp('\\b('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','i');
+    safeText=safeText.replace(re,'<span class="vocab-inline" data-word="'+w+'" data-def="'+vocab[v].definition+'">$1</span>');
+  }
+  qEl.innerHTML=safeText;
+
+  // Go deeper second prompt (with vocab words wrapped inline too)
+  var gdEl=document.getElementById('slideGoDeeper');
+  var gdText=(q.paraphrased||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  for(var g=0;g<vocab.length;g++){
+    var gw=vocab[g].word;
+    var gre=new RegExp('\\b('+gw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')\\b','i');
+    gdText=gdText.replace(gre,'<span class="vocab-inline" data-word="'+gw+'" data-def="'+vocab[g].definition+'">$1</span>');
+  }
+  gdEl.innerHTML=gdText;
+
   document.getElementById('deckProgressFill').style.width=((currentIndex+1)/questions.length*100)+'%';
+  hideAnswers();
 
   // Apply per-topic random color theme
   var slug = currentTopicObj ? (currentTopicObj.slug||'') : currentTopic.toLowerCase().replace(/[^a-z0-9]/g,'');
@@ -710,7 +822,7 @@ document.addEventListener("keydown",function(e){
   if(!document.getElementById("deckView").classList.contains("open"))return;
   if(e.key==="ArrowRight"||e.key===" "){e.preventDefault();nextSlide();}
   if(e.key==="ArrowLeft"){e.preventDefault();prevSlide();}
-  if(e.key==="s"||e.key==="S"){shuffleDeck();}
+  if(e.key==="r"||e.key==="R"){toggleAnswers();}
   if(e.key==="i"||e.key==="I"){document.getElementById('deckImgToggle').click();}
   if(e.key==="Escape"){closeDeck();}
 });
