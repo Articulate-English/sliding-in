@@ -29,7 +29,7 @@
   },
   {
     "id": "healthwellbeing",
-    "url": "https://image.pollinations.ai/prompt/Health%20and%20Well-Being?width=1280&height=720&nologo=true&model=flux"
+    "url": "https://cdn.pixabay.com/photo/2019/09/19/14/37/yoga-4489430_1280.jpg"
   },
   {
     "id": "moodemotion",
@@ -61,7 +61,7 @@
   },
   {
     "id": "bodylanguage",
-    "url": "https://image.pollinations.ai/prompt/Body%20Language?width=1280&height=720&nologo=true&model=flux"
+    "url": "https://cdn.pixabay.com/photo/2017/03/20/04/37/gestures-2158259_1280.jpg"
   },
   {
     "id": "family",
@@ -169,7 +169,7 @@
   },
   {
     "id": "healthwellbeing",
-    "url": "https://image.pollinations.ai/prompt/Health%20and%20Well-Being?width=1280&height=720&nologo=true&model=flux"
+    "url": "https://cdn.pixabay.com/photo/2019/09/19/14/37/yoga-4489430_1280.jpg"
   },
   {
     "id": "sportsexercise",
