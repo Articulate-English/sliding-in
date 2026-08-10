@@ -1,0 +1,201 @@
+[
+  {
+    "category": "Music & Creativity",
+    "topics": [
+      {
+        "title": "Music in Your Life",
+        "slug": "music-life",
+        "level": "B1",
+        "questions": [
+          {
+            "original": "What kind of music do you enjoy listening to, and why does it appeal to you?",
+            "paraphrased": "Which music genres do you prefer, and what draws you to them?",
+            "vocab": [
+              {"word": "genre", "definition": "A particular style or type of music, art, or literature", "translation": "Genre"},
+              {"word": "appeal", "definition": "To be attractive or interesting to someone", "translation": "ansprechen, gefallen"}
+            ]
+          },
+          {
+            "original": "Have you ever learned to play a musical instrument? What was your experience like?",
+            "paraphrased": "Did you ever try to learn an instrument? How did it go?",
+            "vocab": [
+              {"word": "instrument", "definition": "A device used to produce music, like a guitar or piano", "translation": "Instrument"}
+            ]
+          },
+          {
+            "original": "Do you prefer listening to music alone or with others? What difference does it make?",
+            "paraphrased": "Do you enjoy music more in company or by yourself?",
+            "vocab": [
+              {"word": "in company", "definition": "Together with other people", "translation": "in Gesellschaft"}
+            ]
+          },
+          {
+            "original": "How does music affect your mood when you are feeling stressed or tired?",
+            "paraphrased": "What effect does music have on you when you are exhausted or under pressure?",
+            "vocab": [
+              {"word": "mood", "definition": "The way you feel at a particular time", "translation": "Stimmung"},
+              {"word": "stressed", "definition": "Feeling worried or anxious about something", "translation": "gestresst"},
+              {"word": "exhausted", "definition": "Extremely tired, with no energy left", "translation": "erschöpft"}
+            ]
+          },
+          {
+            "original": "If you could attend any concert in the world, which artist or band would you choose?",
+            "paraphrased": "Which live performance would you most like to see if money was no object?",
+            "vocab": [
+              {"word": "attend", "definition": "To go to or be present at an event", "translation": "besuchen, teilnehmen"},
+              {"word": "performance", "definition": "A show or act of entertainment for an audience", "translation": "Aufführung, Konzert"}
+            ]
+          },
+          {
+            "original": "Do you think music in schools is important? Should it be a compulsory subject?",
+            "paraphrased": "How valuable is music education? Should all students be required to study it?",
+            "vocab": [
+              {"word": "compulsory", "definition": "Required by rules or laws; you must do it", "translation": "obligatorisch, Pflicht-"},
+              {"word": "valuable", "definition": "Very useful or important", "translation": "wertvoll, nützlich"}
+            ]
+          },
+          {
+            "original": "How has your taste in music changed since you were younger?",
+            "paraphrased": "In what ways have your musical preferences evolved over the years?",
+            "vocab": [
+              {"word": "taste", "definition": "The things you like or prefer", "translation": "Geschmack, Vorliebe"},
+              {"word": "evolved", "definition": "Developed gradually over time", "translation": "sich entwickelt, gewandelt"}
+            ]
+          },
+          {
+            "original": "What role does music play in Austrian culture compared to other countries?",
+            "paraphrased": "How important is music in Austria's culture relative to other nations?",
+            "vocab": [
+              {"word": "role", "definition": "The purpose or function of something in a situation", "translation": "Rolle, Funktion"},
+              {"word": "relative to", "definition": "Compared with; in relation to", "translation": "im Vergleich zu, bezogen auf"}
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Hiking & Nature",
+        "slug": "hiking-nature",
+        "level": "B1",
+        "questions": [
+          {
+            "original": "Do you enjoy spending time in nature? What activities do you like to do outdoors?",
+            "paraphrased": "Are you someone who likes being outside? What do you enjoy doing in the open air?",
+            "vocab": [
+              {"word": "outdoors", "definition": "Outside, not inside a building", "translation": "im Freien, draußen"},
+              {"word": "open air", "definition": "Outside, where there is fresh air and space", "translation": "freie Luft, Freiluft"}
+            ]
+          },
+          {
+            "original": "Have you ever been hiking in the Alps? Describe your experience.",
+            "paraphrased": "Have you ever gone on a long walk in the mountains? What was it like?",
+            "vocab": [
+              {"word": "hiking", "definition": "Walking long distances in the countryside or mountains for pleasure", "translation": "Wandern"}
+            ]
+          },
+          {
+            "original": "What are the benefits of spending time in nature for young people today?",
+            "paraphrased": "How does being in natural surroundings help teenagers and young adults?",
+            "vocab": [
+              {"word": "benefits", "definition": "Advantages or positive effects", "translation": "Vorteile, Nutzen"},
+              {"word": "surroundings", "definition": "The area or environment around a place or person", "translation": "Umgebung, Gegend"}
+            ]
+          },
+          {
+            "original": "Do you think young people spend enough time outdoors, or are they too focused on screens?",
+            "paraphrased": "Is the amount of time teenagers spend outside sufficient, or do they focus too much on devices?",
+            "vocab": [
+              {"word": "sufficient", "definition": "Enough; as much as is needed", "translation": "ausreichend, genug"},
+              {"word": "focused on", "definition": "Giving most attention to something", "translation": "konzentriert auf, fixiert auf"}
+            ]
+          },
+          {
+            "original": "If you could plan a perfect day in nature, where would you go and what would you do?",
+            "paraphrased": "Imagine your ideal outdoor day — where would you be and how would you spend it?",
+            "vocab": [
+              {"word": "ideal", "definition": "Perfect; the best possible", "translation": "ideal, perfekt"}
+            ]
+          },
+          {
+            "original": "How has climate change affected the natural environment in Austria that you have noticed?",
+            "paraphrased": "What changes to nature in Austria have you observed that might be due to global warming?",
+            "vocab": [
+              {"word": "climate change", "definition": "Long-term changes in global weather patterns", "translation": "Klimawandel"},
+              {"word": "observed", "definition": "Noticed or seen something", "translation": "beobachtet, wahrgenommen"}
+            ]
+          },
+          {
+            "original": "Should schools organise more outdoor activities and nature trips for students?",
+            "paraphrased": "Would it be beneficial if schools arranged more excursions into nature?",
+            "vocab": [
+              {"word": "organise", "definition": "To plan and arrange an event or activity", "translation": "organisieren, veranstalten"},
+              {"word": "excursions", "definition": "Short trips or outings, usually for education or pleasure", "translation": "Ausflüge, Exkursionen"}
+            ]
+          },
+          {
+            "original": "What is your favourite season for being outdoors, and why?",
+            "paraphrased": "Which time of year do you prefer for outdoor activities, and what makes it special?",
+            "vocab": []
+          }
+        ]
+      },
+      {
+        "title": "Friends & Social Life",
+        "slug": "friends-social",
+        "level": "B1",
+        "questions": [
+          {
+            "original": "How do you usually spend your free time with your friends?",
+            "paraphrased": "What activities do you and your friends typically do together when you have time off?",
+            "vocab": [
+              {"word": "typically", "definition": "Usually; in a way that is normal or expected", "translation": "typischerweise, gewöhnlich"}
+            ]
+          },
+          {
+            "original": "Do you prefer having a small group of close friends or a large circle of acquaintances?",
+            "paraphrased": "Would you rather have a few good friends or many people you know?",
+            "vocab": [
+              {"word": "close friends", "definition": "Friends you trust and share personal things with", "translation": "enge Freunde"},
+              {"word": "acquaintances", "definition": "People you know but who are not close friends", "translation": "Bekannte"}
+            ]
+          },
+          {
+            "original": "How important is it for teenagers to have friends from different backgrounds?",
+            "paraphrased": "How valuable is it for young people to be friends with others who have different life experiences?",
+            "vocab": [
+              {"word": "backgrounds", "definition": "A person's education, family, culture, and life experience", "translation": "Hintergründe, Herkunft"},
+              {"word": "valuable", "definition": "Very useful or important", "translation": "wertvoll"}
+            ]
+          },
+          {
+            "original": "Have you ever had a disagreement with a close friend? How did you resolve it?",
+            "paraphrased": "Did you ever argue with a good friend? How did you sort things out?",
+            "vocab": [
+              {"word": "disagreement", "definition": "A situation where people have different opinions or arguments", "translation": "Meinungsverschiedenheit, Streit"},
+              {"word": "resolve", "definition": "To find a solution to a problem or disagreement", "translation": "lösen, beilegen"}
+            ]
+          },
+          {
+            "original": "Do you think social media helps or harms friendships among young people?",
+            "paraphrased": "Does social media improve or damage the friendships of teenagers?",
+            "vocab": [
+              {"word": "harms", "definition": "Causes damage or injury to something", "translation": "schaden, beeinträchtigen"}
+            ]
+          },
+          {
+            "original": "What qualities do you value most in a friend?",
+            "paraphrased": "Which characteristics are most important to you when choosing friends?",
+            "vocab": [
+              {"word": "qualities", "definition": "Characteristics or features of a person", "translation": "Eigenschaften, Qualitäten"},
+              {"word": "characteristics", "definition": "The qualities or features that make someone or something recognisable", "translation": "Merkmale, Eigenschaften"}
+            ]
+          },
+          {
+            "original": "How do you think friendships change as people get older?",
+            "paraphrased": "In what ways do you expect your friendships to be different when you are an adult?",
+            "vocab": []
+          }
+        ]
+      }
+    ]
+  }
+]
